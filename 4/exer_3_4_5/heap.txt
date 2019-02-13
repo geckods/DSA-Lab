@@ -1,0 +1,2 @@
+Heap used before makecircular is 16000016.
+Heap used after makecircular is 16000016.
