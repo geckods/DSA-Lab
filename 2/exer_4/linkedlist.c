@@ -33,4 +33,36 @@ void printList(struct linkedList* head){
 	printf(" ]");
 }
 
+int search (struct linkedList * head, int ele){
+	struct node* temp = head->first;
+	while(temp!=NULL){
+		if(temp->element==ele) return 1;
+		temp = temp->next;
+	}
+	return 0;
+}
+
+struct node* delete(struct linkedList * head, int ele){/* deletes the first node in the list that contains the element = ele and retuns it. If the element is not found it returns an error message saying element not found. */
+	struct node* prev = head->first;
+	struct node* temp = head->first;
+	
+	while(temp!=NULL){
+		if(temp->element==ele){
+			head->count--;
+			if(temp==head->first){
+				head->first=temp->next;
+				return temp;
+			}
+			else{
+				prev->next=temp->next;
+				return temp;
+			}
+		}
+		prev=temp;
+		temp = temp->next;
+	}
+
+	printf("Element not found!\n");
+	return NULL;	
+}
 
