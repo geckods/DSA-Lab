@@ -1,0 +1,3 @@
+Read 10000 structs in 6.266000 milliseconds.
+Sorted 10000 structs in 156.158000 milliseconds.
+Number Of elements sorted:10000, Top Of Stack:140732180684276, Bottom Of Stack:140732181004324, Difference: 320048.
