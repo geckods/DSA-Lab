@@ -78,11 +78,14 @@ int main(){
 	fprintf(fp,"Heap used before makecircular is %lld.\n",heapspace);
 	fclose(fp);
 
+	list = createCycle(list);
+
+
 	struct timeval t1, t2;
 	double elapsedTime;
 	gettimeofday(&t1, NULL);
 
-	list = createCycle(list);
+	int isCyclic = testCyclic(list);
 
 	gettimeofday(&t2, NULL);
 	// compute and print the elapsed time in millisec
@@ -90,12 +93,15 @@ int main(){
 	elapsedTime += (t2.tv_usec - t1.tv_usec) / 1000.0;
 	printf("Total time for detection of cyclic is %f ms.\n",elapsedTime);
 
-	if(testCyclic(list)){
+	if(isCyclic){
 		printf("Detected Cyclic.\n");
 	}
 	else{
 		printf("Detected Linear.\n");
 	}
+
+
+
 
 	list = makeCircularList(list);
 
