@@ -5,19 +5,19 @@
 int main(){
 
 
-/*
+
 //ALL THIS CODE IS FOR TESTING SORT
 	Element arr[10];
-	arr[0].cgpa =  1.1;
-	arr[1].cgpa =  777;
-	arr[2].cgpa =  4.42;
-	arr[3].cgpa =  32;
-	arr[4].cgpa =  4.4444;
-	arr[5].cgpa =  999.1;
-	arr[6].cgpa =  0;
-	arr[7].cgpa =  -1;
-	arr[8].cgpa =  93;
-	arr[9].cgpa =  999;
+	arr[0].cgpa =  9;
+	arr[1].cgpa =  7;
+	arr[2].cgpa =  8;
+	arr[3].cgpa =  2;
+	arr[4].cgpa =  1;
+	arr[5].cgpa =  4;
+	arr[6].cgpa =  3;
+	arr[7].cgpa =  3;
+	arr[8].cgpa =  2;
+	arr[9].cgpa =  3;
 
 //THIS SECTION IS FOR TESTING MERGE
 	Element newarr[3];
@@ -33,11 +33,13 @@ int main(){
 	}
 	putchar('\n');
 
+	/*Comment out the not required one, based on what you're building*/
     mergeSort(arr,10);
+//    mergeSortIter(arr, 10);
 
 	for(int i=0;i<10;i++){
 		printf("%lf ",arr[i].cgpa);
 	}
 	putchar('\n');
-*/
+
 }
