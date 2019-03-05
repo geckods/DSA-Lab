@@ -75,6 +75,11 @@ Student generateData(int arraySize)
 }
 
 
+/*Compile instructions:
+gcc main.c List.c
+Run instructions:
+./a.out
+*/
 
 int main()
 {
