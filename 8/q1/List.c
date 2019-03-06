@@ -4,7 +4,7 @@
 void* myalloc(int size){
 	globalCounter+=size+4;
 	int* asd = (int*)malloc(size+4);
-	*asd = size;
+	*asd = size+4;
 	return (((void*)asd)+4);
 }
 
