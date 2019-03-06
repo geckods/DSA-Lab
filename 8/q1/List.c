@@ -2,14 +2,14 @@
 
 
 void* myalloc(int size){
-	globalCounter+=size+4;
-	int* asd = (int*)malloc(size+4);
-	*asd = size+4;
-	return (((void*)asd)+4);
+	globalCounter+=size+sizeof(int);
+	int* asd = (int*)malloc(size+sizeof(int));
+	*asd = size+sizeof(int);
+	return (((void*)asd)+sizeof(int));
 }
 
 void myfree(void* x){
-	int* toread = (int*)(x-4);
+	int* toread = (int*)(x-sizeof(int));
 	int size = *toread;
 	globalCounter-=size;
 	free(toread);
