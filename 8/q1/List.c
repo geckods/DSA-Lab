@@ -3,15 +3,15 @@
 
 void* myalloc(int size){
 	globalCounter+=size+sizeof(int);
-	int* asd = (int*)malloc(size+sizeof(int));
-	*asd = size+sizeof(int);
-	return (((void*)asd)+sizeof(int));
+	int* asd = (int*)malloc(size+sizeof(int)); //malloc an extra integer along with size
+	*asd = size+sizeof(int); //in the integer space that you just created (the beginning of the allocated space), put an integer that says how much you've allocated
+	return (((void*)asd)+sizeof(int)); //return the pointer directly after this integer
 }
 
 void myfree(void* x){
-	int* toread = (int*)(x-sizeof(int));
-	int size = *toread;
-	globalCounter-=size;
+	int* toread = (int*)(x-sizeof(int));//move back before the pointer you have, in order to read the integer
+	int size = *toread;//read the int
+	globalCounter-=size;//decrement globalCounter
 	free(toread);
 }
 
