@@ -31,7 +31,8 @@ int * Merge_Arr(){
 	The idea is to merge the rows pairwise, taking care about extra rows
 	i.e. from initial 50 row array (int* myArr[50]) merge to (int* myArr[25]) -> int* myArr[12] and so on, until only one array remains
 	In each iteration, you merge every pair of rows
-	As the array size is being halved every iteration, the sort is O(M*N*logN)
+
+	There are much simpler ways of doing this, but this is just the one that popped into my head, that I was able to implement.
 	*/
 	int size=N;
 	int newsize;
