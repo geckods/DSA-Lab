@@ -179,13 +179,13 @@ void insertHash(wchar_t** arr, int index, HashTable* myhash){
 		myhash->table[theHash]->count = 1;
 		myhash->table[theHash]->firstindex=index;
 		myhash->tableSize++;
-		if(myhash->insertionCost==0) myhash->insertionCost++;
+		//if(myhash->insertionCost==0) myhash->insertionCost++;
 	}
 	else{
 		int asd=0;
 		Node* curr = myhash->table[theHash];
 		while(curr->next!=NULL && (wcscmp(arr[index], arr[curr->firstindex]))){
-			asd++;
+			myhash->insertionCost++;
 			curr=curr->next;
 		}
 		if(!(wcscmp(arr[index], arr[curr->firstindex]))){
@@ -196,9 +196,6 @@ void insertHash(wchar_t** arr, int index, HashTable* myhash){
 			curr->next->firstindex = index;
 			curr->next->count = 1;
 			myhash->tableSize++;
-			if(myhash->insertionCost==asd){
-				myhash->insertionCost++;
-			}
 		}
 	}
 }
@@ -212,16 +209,12 @@ int insertAll(wchar_t** arr, int size, HashTable* myhash){
 
 Node* lookup(wchar_t** arr, int index, HashTable* myhash){
 	int theHash = hash(arr[index],myhash->baseNumber,myhash->tableSize);
-	int asd=0;
 	Node* curr = myhash->table[theHash];
 	while(curr && wcscmp(arr[index], arr[curr->firstindex])){
-		asd++;
+		myhash->queryingCost++;
 		curr=curr->next;
 	} 
 
-	if(asd>myhash->queryingCost){
-		myhash->queryingCost = asd;
-	}
 	return curr;
 }
 
@@ -232,6 +225,47 @@ int lookupAll(wchar_t** arr, int size, HashTable* myhash,double m){
 		lookup(arr,i, myhash);
 	}
 	return myhash->queryingCost;
+}
+
+double lookupProfile(wchar_t** arr, int size, HashTable* myhash){
+	for(double m=0;m<2.0;m+=0.1){
+		if(lookupAll(arr,size,myhash,m)>myhash->insertionCost){
+			return m;
+		}
+	}
+	return 2.0;
+}
+
+HashTable* deleteStopWords(HashTable* myhash, char* stopWordsFile, wchar_t** arr){
+	int stopWordsLength;
+	wchar_t** stopWords = validStrings(stopWordsFile,&stopWordsLength);
+
+	for(int i=0;i<stopWordsLength;i++){
+		int theHash = hash(stopWords[i],myhash->baseNumber,myhash->tableSize);
+		Node* prev = myhash->table[theHash];
+		if(prev==NULL)continue;
+		Node* curr = prev->next;
+
+		if(!wcscmp(stopWords[i],arr[prev->firstindex])){
+			myhash->table[theHash] = curr;
+			free(prev);
+			myhash->tableSize--;
+		}
+
+		while(curr && wcscmp(stopWords[i],arr[curr->firstindex])){
+			prev=curr;
+			curr = curr->next;
+		}
+
+		if(curr==NULL){
+			continue;
+		}
+
+		prev->next = curr->next;
+		free(curr);
+		myhash->tableSize--;
+	}
+	return myhash;
 }
 
 int main(int argc, char* argv[]){
@@ -263,5 +297,13 @@ int main(int argc, char* argv[]){
 	fprintf(stderr,"%d\n",insertAll(stringarr, len, myHashTable));
 	fprintf(stderr, "%d\n", lookup(stringarr, 4, myHashTable)->count);
 	fprintf(stderr, "%d\n", lookupAll(stringarr, len, myHashTable,0.8));
+	fprintf(stderr, "%lf\n", lookupProfile(stringarr, len, myHashTable));
+	deleteStopWords(myHashTable, argv[2],stringarr);
+	fprintf(stderr, "%d\n",myHashTable->tableSize);
+	fprintf(stderr, "%lf\n", lookupProfile(stringarr, len, myHashTable));
 	return 0;
 }
+
+/*RUN COMMAND:
+./a.out aliceinwonderland.txt stopwords.txt
+*/
